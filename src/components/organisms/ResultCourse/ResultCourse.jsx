@@ -23,11 +23,9 @@ function ResultCourse() {
   );
   const { data, dataFeatured, loading } = useSelector((state) => state.Courses.course);
   const totalCourses = data.totalItems + dataFeatured.totalItems;
-  console.log('loading', loading);
   const courseLoading = new Array(5).fill().map((e, i) => {
     return { id: `${i}-loading` };
   });
-  console.log(courseLoading);
   return (
     <Content>
       <Aside>
