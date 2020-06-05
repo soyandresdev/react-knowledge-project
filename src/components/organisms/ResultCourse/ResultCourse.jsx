@@ -1,11 +1,33 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
 import FilterCourses from '@UI/Molecules/FilterCourses';
-import CourseItem from '@UI/Molecules/CourseItem';
+import CourseItem, { LoadingCourseItem } from '@UI/Molecules/CourseItem';
 import Dropdown from '@UI/Molecules/Dropdown';
-import { Content, Aside, CourseList, Header, DropdownBox, PageInfo } from './styles';
+import { CoursesActions } from '@Redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  Content,
+  Aside,
+  CourseList,
+  Header,
+  DropdownBox,
+  PageInfo,
+  ReactPaginateStyles as ReactPaginate,
+  EmptyResult,
+} from './styles';
 
-function ResultCourse(props) {
+function ResultCourse() {
+  const dispatch = useDispatch();
+  const { sortedBy, sortField, pagesIndex, pageSize } = useSelector(
+    (state) => state.Courses.filter
+  );
+  const { data, dataFeatured, loading } = useSelector((state) => state.Courses.course);
+  const totalCourses = data.totalItems + dataFeatured.totalItems;
+  console.log('loading', loading);
+  const courseLoading = new Array(5).fill().map((e, i) => {
+    return { id: `${i}-loading` };
+  });
+  console.log(courseLoading);
   return (
     <Content>
       <Aside>
@@ -15,21 +37,58 @@ function ResultCourse(props) {
         <Header>
           <div>
             <PageInfo>
-              <strong>Page 1</strong> of <strong>1790 results</strong>
+              <strong>Page {pagesIndex}</strong> of <strong>{totalCourses} results</strong>
             </PageInfo>
           </div>
           <div>
             <DropdownBox>
               <p>Sorted by:</p>
               <div className="Select">
-                <Dropdown size="small" theme="gray" />
+                <Dropdown
+                  size="small"
+                  theme="gray"
+                  options={sortedBy}
+                  value={sortField}
+                  onChange={(value) => {
+                    dispatch(CoursesActions.Creators.changeFilter({ sortField: value }));
+                  }}
+                />
               </div>
             </DropdownBox>
           </div>
         </Header>
-        <CourseItem />
-        <CourseItem />
-        <CourseItem />
+        {loading && (
+          <>
+            {courseLoading.map((course, index) => (
+              <LoadingCourseItem key={course.id || index.toString()} />
+            ))}
+          </>
+        )}
+        {!loading && (
+          <>
+            {isEmpty(data.items) && isEmpty(dataFeatured.items) && (
+              <EmptyResult>
+                <h2>Your search yielded no results</h2>
+              </EmptyResult>
+            )}
+            {data.items.map((course) => (
+              <CourseItem key={course.id} data={{ ...course, isFeatured: false }} />
+            ))}
+            {dataFeatured.items.map((course) => (
+              <CourseItem key={course.id} data={{ ...course, isFeatured: true }} />
+            ))}
+            {!isEmpty(data.items) && !isEmpty(dataFeatured.items) && (
+              <ReactPaginate
+                onChange={(page) => {
+                  dispatch(CoursesActions.Creators.changeFilter({ pagesIndex: page }));
+                }}
+                pageSize={pageSize}
+                current={pagesIndex}
+                total={totalCourses}
+              />
+            )}
+          </>
+        )}
       </CourseList>
     </Content>
   );

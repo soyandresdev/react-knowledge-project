@@ -21,7 +21,7 @@ function Input({ ...resProps }) {
 Input.defaultProps = {};
 
 Input.propTypes = {
-  value: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
 };
 

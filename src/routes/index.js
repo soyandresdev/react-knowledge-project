@@ -8,7 +8,7 @@ const routesEndpoints = {
 // [END] Routes Endpoints Importing
 
 // API Base URL
-export const BASE_API_URL = 'https://api.ea.com'; // TODO: Read from environment variable
+export const BASE_API_URL = 'https://api.courses.test.cebroker.com'; // TODO: Read from environment variable
 
 // Get a page route
 export const getPageRoute = (module, endpoint, params) => {

@@ -26,5 +26,13 @@ export default function Icons({ type, ...resProps }) {
 }
 
 Icons.propTypes = {
-  type: PropTypes.oneOf(['Search', 'ArrowUp', 'ArrowDown', 'Filter']).isRequired,
+  type: PropTypes.oneOf([
+    'Search',
+    'ArrowUp',
+    'ArrowDown',
+    'Filter',
+    'TurnRight',
+    'Clock',
+    'Computer',
+  ]).isRequired,
 };

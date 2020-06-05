@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { mqMAX } from '@Styles/mediaQuery';
 
 export const Content = styled.article`
   display: flex;
@@ -7,6 +8,9 @@ export const Content = styled.article`
   margin-bottom: 10px;
   align-items: flex-start;
   padding: 16px;
+  ${mqMAX.md} {
+    flex-direction: column;
+  }
 `;
 
 export const Figure = styled.figure`
@@ -21,6 +25,11 @@ export const InfoContent = styled.div`
   display: flex;
   flex-direction: row;
   flex: 1;
+  min-height: 100px;
+  ${mqMAX.md} {
+    width: calc(100% - 0px);
+    flex-direction: column;
+  }
 `;
 export const Title = styled.h2`
   color: #1d2121;
@@ -52,7 +61,7 @@ export const Category = styled.h3`
 export const Details = styled.ul`
   display: flex;
   align-items: center;
-  padding-top: 10px;
+  padding-top: 20px;
   & > li {
     margin-right: 10px;
   }
@@ -77,6 +86,11 @@ export const PriceAction = styled.div`
   align-items: center;
   justify-content: space-between;
   align-items: flex-end;
+  ${mqMAX.md} {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
 `;
 
 export const Price = styled.p`

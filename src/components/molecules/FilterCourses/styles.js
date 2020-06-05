@@ -1,8 +1,14 @@
 import styled from 'styled-components';
+import { mqMAX } from '@Styles/mediaQuery';
 
 export const Aside = styled.div``;
 export const Header = styled.header`
   padding: 18px 16px;
+`;
+export const ListCollapseFilter = styled.ul`
+  ${mqMAX.md} {
+    display: none;
+  }
 `;
 
 export const TitleFilter = styled.p`

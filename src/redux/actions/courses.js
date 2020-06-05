@@ -2,7 +2,11 @@ import { createActions } from 'reduxsauce';
 
 const { Types, Creators } = createActions(
   {
-    changeTest: ['changed'],
+    changeFilter: ['payload'],
+    changeCoursesData: ['payload'],
+    getDataCourses: [],
+    getDataCoursesFeatured: [],
+    getDataCoursesPages: [],
   },
   { prefix: 'Courses/' }
 );

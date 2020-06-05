@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from '@UI/Templates/App';
 import * as serviceWorker from './serviceWorker';
+import 'rc-pagination/assets/index.css';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

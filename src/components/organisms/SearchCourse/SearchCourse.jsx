@@ -1,37 +1,30 @@
-import React from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
+import debounce from 'lodash/debounce';
 import InputIcon from '@UI/Molecules/InputIcon';
 import Tab from '@UI/Atoms/Tab';
 import Dropdown from '@UI/Molecules/Dropdown';
+import { CoursesActions } from '@Redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
 import { SearchCourseBox, Content, DropdownSection, TextFind, TabSection } from './styles';
 
 const tabs = [{ name: 'Courses', active: true }, { name: 'Providers' }];
-const City = [
-  { label: 'Alabama', value: 'AL' },
-  { label: 'Alaska ', value: 'AK' },
-  { label: 'Arizona ', value: 'AZ' },
-  { label: 'Arkansas ', value: 'AR' },
-  { label: 'California ', value: 'CA' },
-  { label: 'California ', value: 'CA' },
-  { label: 'Colorado ', value: 'CO' },
-  { label: 'Connecticut ', value: 'CT' },
-  { label: 'Delaware ', value: 'DE' },
-  { label: 'District of Columbia', value: 'DC' },
-  { label: 'Florida', value: 'FL' },
-  { label: 'Georgia', value: 'GA' },
-  { label: 'Hawaii', value: 'HI' },
-  { label: 'Idaho', value: 'ID' },
-  { label: 'Illinois', value: 'IL' },
-  { label: 'Indiana', value: 'IN' },
-  { label: 'Iowa', value: 'IA' },
-  { label: 'Kansas', value: 'KS' },
-];
-const Professions = [
-  { label: 'Occupational Therapist', value: '249' },
-  { label: 'Occupational Therapist Assistant ', value: '250' },
-  { label: 'Veterinarian ', value: '4340' },
-  { label: 'Veterinarian Technician ', value: '4342' },
-];
 export default function SearchCourse() {
+  const dispatch = useDispatch();
+  const { city, profession, cityValue, professionValue, search } = useSelector(
+    (state) => state.Courses.filter
+  );
+  const [filter, setFilter] = useState(search || '');
+  const delayedFilter = useCallback(
+    debounce((q) => {
+      dispatch(CoursesActions.Creators.changeFilter({ search: q }));
+    }, 500),
+    []
+  );
+
+  useEffect(() => {
+    delayedFilter(filter);
+  }, [filter, delayedFilter]);
+
   return (
     <SearchCourseBox>
       <Content>
@@ -40,14 +33,32 @@ export default function SearchCourse() {
             <TextFind>Find CE for a</TextFind>
           </div>
           <div className="dropdown">
-            <Dropdown value="Florida" size="big" options={City} />
+            <Dropdown
+              size="big"
+              options={city}
+              value={cityValue}
+              onChange={(value) => {
+                dispatch(CoursesActions.Creators.changeFilter({ cityValue: value }));
+              }}
+            />
           </div>
           <div className="dropdown">
-            <Dropdown value="Medical" size="big" options={Professions} />
+            <Dropdown
+              size="big"
+              options={profession}
+              value={professionValue}
+              onChange={(value) => {
+                dispatch(CoursesActions.Creators.changeFilter({ professionValue: value }));
+              }}
+            />
           </div>
         </DropdownSection>
         <div>
-          <InputIcon placeholder="Search courses and providers" />
+          <InputIcon
+            placeholder="Search courses and providers"
+            value={filter}
+            onChange={(event) => setFilter(event.target.value)}
+          />
         </div>
         <TabSection>
           {tabs.map((tab) => (

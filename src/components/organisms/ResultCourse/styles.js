@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import ReactPaginate from 'rc-pagination';
+import { mqMAX } from '@Styles/mediaQuery';
 
 export const Content = styled.section`
   width: 970px;
@@ -10,6 +12,11 @@ export const Content = styled.section`
   grid-template-rows: auto auto;
   grid-template-areas: 'Aside CourseList' '. CourseList';
   grid-gap: 16px;
+  ${mqMAX.md} {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+  }
 `;
 export const Aside = styled.aside`
   grid-area: Aside;
@@ -17,6 +24,9 @@ export const Aside = styled.aside`
   box-shadow: 10px 10px 13px -13px rgba(143, 143, 143, 1);
   border: 1px solid #e6e8ec;
   border-radius: 3px;
+  ${mqMAX.md} {
+    margin-bottom: 10px;
+  }
 `;
 
 export const Header = styled.header`
@@ -25,6 +35,11 @@ export const Header = styled.header`
   align-items: center;
   padding: 8px 0px;
   color: ${({ theme }) => theme.colors.gray};
+  ${mqMAX.md} {
+    grid-template-columns: 1fr;
+    grid-template-rowq: 1fr 1fr;
+    grid-gap: 10px;
+  }
 `;
 
 export const PageInfo = styled.p`
@@ -52,4 +67,20 @@ export const CourseList = styled.section`
   border: 1px solid #e6e8ec;
   border-radius: 3px;
   padding: 10px;
+`;
+export const ReactPaginateStyles = styled(ReactPaginate)`
+  display: flex;
+  justify-content: center;
+`;
+
+export const EmptyResult = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  margin-top: 26px;
+  h2 {
+    font-size: 24px;
+    color: ${({ theme }) => theme.colors.gray};
+  }
 `;

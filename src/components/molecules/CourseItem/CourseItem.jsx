@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import numeral from 'numeral';
 import Button from '@UI/Atoms/Button';
 import Icons from '@UI/Atoms/Icons';
 import {
@@ -15,24 +16,32 @@ import {
   Price,
 } from './styles';
 
-function CourseItem(props) {
+function CourseItem({ data }) {
+  const { price, course, hasPrice, isFeatured } = data;
+  const totalHours =
+    course?.components.reduce((act, component) => {
+      if (act < component?.profession?.totalHours) {
+        return component.profession.totalHours;
+      }
+      return act;
+    }, 0) || 0;
   return (
     <Content>
-      <div>
-        <Figure>
-          <img
-            src="https://storage.cebroker.com/CEBroker/e52c09d6-bb27-45f8-b31d-c0ca94217ec6"
-            alt=""
-          />
-        </Figure>
-      </div>
+      {course.featuredBanner && (
+        <div>
+          <Figure>
+            <img
+              src={`https://storage.cebroker.com/CEBroker/${course.featuredBanner}`}
+              alt={course.name}
+            />
+          </Figure>
+        </div>
+      )}
       <InfoContent>
         <TextInfo>
-          <Title>
-            Legal, Ethical & Practical Business Management Skills for the Independent Therapist
-          </Title>
-          <Association>Feature</Association>
-          <Category>INDEPENDENT THERAPIST ALLIANCE</Category>
+          <Title>{course.name}</Title>
+          {isFeatured && <Association>Feature</Association>}
+          <Category>{course.provider.name}</Category>
           <div>
             <Details>
               <li>
@@ -40,7 +49,7 @@ function CourseItem(props) {
                   <span>
                     <Icons type="Clock" width="16" height="16" fill="#4c5656" />
                   </span>
-                  2 Hours
+                  {totalHours} Hours
                 </p>
               </li>
               <li>
@@ -48,16 +57,14 @@ function CourseItem(props) {
                   <span>
                     <Icons type="Computer" width="16" height="16" fill="#4c5656" />
                   </span>
-                  Computer Based traini
+                  {course.deliveryMethod.description || ''}
                 </p>
               </li>
             </Details>
           </div>
         </TextInfo>
         <PriceAction>
-          <div>
-            <Price>$ 24.00</Price>
-          </div>
+          <div>{hasPrice && <Price>{numeral(price).format('$0,0.00')}</Price>}</div>
           <div>
             <Button>
               <span>
@@ -71,6 +78,13 @@ function CourseItem(props) {
   );
 }
 
-CourseItem.propTypes = {};
+CourseItem.propTypes = {
+  data: PropTypes.shape({
+    price: PropTypes.objectOf([PropTypes.number, PropTypes.string]),
+    course: PropTypes.object,
+    hasPrice: PropTypes.bool,
+    isFeatured: PropTypes.bool,
+  }).isRequired,
+};
 
 export default CourseItem;

@@ -1,13 +1,12 @@
-const moduleURL = '/Courses';
+// const moduleURL = '/Courses';
 
 const apiRoutes = Object.freeze({
-  SEND_LOGIN: '/login',
-  TEST_PARAM: '/test/:what/',
+  GET_COURSES_FEATURED:
+    '/offerings?expand=totalItems&pageIndex=:pagesIndex&pageSize=:pageSize&sortField=:sortField&profession=:profession&state=:state&courseType=:courseType&term=:term&isFeatured=true',
+  GET_COURSES:
+    '/offerings?expand=totalItems&pageIndex=:pagesIndex&pageSize=:pageSize&sortField=:sortField&profession=:profession&state=:state&courseType=:courseType&term=:term',
 });
 
-const pageRoutes = Object.freeze({
-  LOGIN_PAGE: `${moduleURL}/login`,
-  TEST_PARAM: '/test-api/:what/',
-});
+const pageRoutes = Object.freeze({});
 
 export default { apiRoutes, pageRoutes };

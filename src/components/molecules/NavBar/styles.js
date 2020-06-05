@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { mqMAX } from '@Styles/mediaQuery';
 
 export const NavbarBox = styled.nav`
   position: fixed;
@@ -7,6 +8,9 @@ export const NavbarBox = styled.nav`
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2);
   background: ${({ theme }) => theme.colors.white};
   z-index: 99;
+  ${mqMAX.md} {
+    padding: 0px 10px;
+  }
 `;
 export const Content = styled.div`
   height: 80px;
@@ -15,6 +19,9 @@ export const Content = styled.div`
   align-items: center;
   justify-content: space-between;
   margin: 0 auto;
+  ${mqMAX.md} {
+    width: 100vw;
+  }
 `;
 
 export const ContentLeft = styled.div`
@@ -36,6 +43,9 @@ export const NavList = styled.ul`
   padding-bottom: 0;
   box-shadow: unset;
   flex-direction: row;
+  ${mqMAX.md} {
+    display: none;
+  }
 `;
 export const NavItem = styled.li`
   min-height: 80px;
@@ -67,4 +77,7 @@ export const NavActions = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 10px;
+  ${mqMAX.md} {
+    display: none;
+  }
 `;
