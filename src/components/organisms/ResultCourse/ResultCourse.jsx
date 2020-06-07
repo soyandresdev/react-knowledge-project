@@ -69,11 +69,11 @@ function ResultCourse() {
                 <h2>Your search yielded no results</h2>
               </EmptyResult>
             )}
-            {data.items.map((course) => (
-              <CourseItem key={course.id} data={{ ...course, isFeatured: false }} />
-            ))}
             {dataFeatured.items.map((course) => (
               <CourseItem key={course.id} data={{ ...course, isFeatured: true }} />
+            ))}
+            {data.items.map((course) => (
+              <CourseItem key={course.id} data={{ ...course, isFeatured: false }} />
             ))}
             {!isEmpty(data.items) && !isEmpty(dataFeatured.items) && (
               <ReactPaginate
